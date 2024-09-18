@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository, UpdateResult } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Department } from './entity/department.entity';
+import { CreateDepartmentDto } from './dto/create-department.dto';
 
 @Injectable()
 export class DepartmentService {
@@ -10,8 +11,12 @@ export class DepartmentService {
         private departmentRepository: Repository<Department>,
     ) {}
 
-    findAll(): Promise<Department[]> {
+    getAll(): Promise<Department[]> {
         return this.departmentRepository.find();
+    }
+
+    create(departmentToCreate: CreateDepartmentDto): Promise<Department> {
+        return this.departmentRepository.save(departmentToCreate);
     }
 
 }

@@ -4,9 +4,8 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DepartmentModule } from './department/department.module';
+import { EmployeeModule } from './employee/employee.module';
 
-
-// TODO: add the entities and the appointment to .env
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -24,7 +23,8 @@ import { DepartmentModule } from './department/department.module';
         synchronize: true,  // Disable this in production
       }),
     }),
-    DepartmentModule
+    DepartmentModule,
+    EmployeeModule
   ],
   controllers: [AppController],
   providers: [AppService],
