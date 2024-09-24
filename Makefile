@@ -34,7 +34,7 @@ setup-env:
 	echo "DATABASE_HOST=localhost" > server/.env
 	echo "DATABASE_PORT=5432" >> server/.env
 	echo "POSTGRES_USER=user" >> server/.env
-	echo "POSTGRES_PASSWORD=password" >> server/.env
+	echo "POSTGRES_PASSWORD=secret" >> server/.env
 	echo "POSTGRES_DB=employee_db" >> server/.env
 
 # Stop processes

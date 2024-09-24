@@ -1,5 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { Department } from '../../department/entity/department.entity';
+import { Department } from 'src/department/entity/department.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 
 @Entity()
 export class Employee {
@@ -21,6 +21,7 @@ export class Employee {
   @Column()
   address: string;
 
-  @ManyToOne(() => Department, department => department.employees)
+  @ManyToOne(() => Department)
+  @JoinColumn({ name: 'department_id' })
   department: Department;
 }

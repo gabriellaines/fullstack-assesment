@@ -23,5 +23,5 @@ export class CreateEmployeeDto {
 
     @IsNotEmpty()
     @IsNumber()
-    departmentId: number;
+    department_id: number;
 }

@@ -8,7 +8,4 @@ export class Department {
 
   @Column()
   name: string;
-
-  @OneToMany(() => Employee, employee => employee.department)
-  employees: Employee[];
 }

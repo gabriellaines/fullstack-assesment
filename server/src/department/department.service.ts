@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { Department } from './entity/department.entity';
 import { CreateDepartmentDto } from './dto/create-department.dto';
 
@@ -17,6 +17,10 @@ export class DepartmentService {
 
     create(departmentToCreate: CreateDepartmentDto): Promise<Department> {
         return this.departmentRepository.save(departmentToCreate);
+    }
+
+    delete(id: number): Promise<DeleteResult> {
+        return this.departmentRepository.delete(id);
     }
 
 }

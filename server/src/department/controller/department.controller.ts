@@ -3,6 +3,8 @@ import {
     Controller,
     Delete,
     Get,
+    HttpCode,
+    HttpStatus,
     Param,
     Patch,
     Post,
@@ -27,4 +29,13 @@ export class DepartmentController {
         return this.departmentService.create(departmentToCreate);
     }
 
+    @Delete(':id')
+    @HttpCode(204)
+    async deleteDepartment(@Param() id: number) {
+        const result = await this.departmentService.delete(id);
+        if (result.affected !== 1) {
+            throw new Error('it was not possible to remove the department with id ' + id);
+        }
+        return { statusCode: HttpStatus.NO_CONTENT };
+    }
 }

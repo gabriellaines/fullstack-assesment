@@ -1,6 +1,7 @@
 import {
     Body,
     Controller,
+    Delete,
     Get,
     HttpCode,
     HttpStatus,
@@ -59,4 +60,13 @@ export class EmployeeController {
         return { statusCode: HttpStatus.NO_CONTENT };
     }
 
+    @Delete(':id')
+    @HttpCode(204)
+    async deleteEmployee(@Param('id') id: number) {
+        const deleteResult = await this.employeeService.delete(id);
+        if (deleteResult.affected !== 1) {
+            throw new Error('it was not possible to remove the employee with id ' + id);
+        }
+        return { statusCode: HttpStatus.NO_CONTENT };
+    }
 }
