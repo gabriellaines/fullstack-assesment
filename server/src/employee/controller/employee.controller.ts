@@ -27,11 +27,11 @@ export class EmployeeController {
         return this.employeeService.getAll();
     }  
   
-    // TODO: add validations to when the
-    // employee is not found
     @Get(':id')
-    getById(@Param('id') id: number) {
-        return this.employeeService.getById(id);
+    async getById(@Param('id') id: number) {
+        const employee = await this.employeeService.getById(id);
+        if (!employee) throw new NotFoundException(`Employee with id ${id} was not found!`);
+        return employee;
     }
     
     @Post()
