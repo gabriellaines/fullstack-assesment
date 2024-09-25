@@ -15,7 +15,7 @@ export default class EmployeeService {
         return this.httpClient.get<EmployeeModel[]>(this.employeeUrl);
     }
     
-    public findOne(id: any) {
-        return this.httpClient.get<EmployeeModel>(this.employeeUrl + '/by-id/' + id);
+    public getById(id: any) {
+        return this.httpClient.get<EmployeeModel>(this.employeeUrl + '/' + id);
     }
 }
