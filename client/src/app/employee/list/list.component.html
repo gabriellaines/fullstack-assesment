@@ -1,0 +1,5 @@
+<p>list works!</p>
+@for(employee of employees; track employee.id) {
+    <p>{{ employee.firstName }}</p>
+    <p>{{ employee.department.name }}</p>
+}

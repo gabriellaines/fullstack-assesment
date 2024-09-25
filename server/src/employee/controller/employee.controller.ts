@@ -23,18 +23,18 @@ export class EmployeeController {
     constructor(private readonly employeeService: EmployeeService) {}
 
     @Get()
-    getAllEmployees(): Promise<Employee[]> {
+    getAll(): Promise<Employee[]> {
         return this.employeeService.getAll();
     }  
     
     @Post()
-    createEmploye(@Body() employeeToCreate: CreateEmployeeDto) {
+    create(@Body() employeeToCreate: CreateEmployeeDto) {
         return this.employeeService.create(employeeToCreate);
     }
 
     @Put(':id')
     @HttpCode(204)
-    async updateEmployee(
+    async update(
         @Param('id') id: number,
         @Body() dataToUpdate: EmployeeUpdateDto
     ) {
@@ -43,7 +43,7 @@ export class EmployeeController {
 
     @Patch(':id')
     @HttpCode(204)
-    async partialUptadateEmployee(
+    async partialUptadate(
         @Param('id') id: number,
         @Body() dataToUpdate: EmployeeUpdatePartialDto
     ) {
@@ -62,7 +62,7 @@ export class EmployeeController {
 
     @Delete(':id')
     @HttpCode(204)
-    async deleteEmployee(@Param('id') id: number) {
+    async delete(@Param('id') id: number) {
         const deleteResult = await this.employeeService.delete(id);
         if (deleteResult.affected !== 1) {
             throw new Error('it was not possible to remove the employee with id ' + id);

@@ -6,7 +6,6 @@ import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { EmployeeUpdateDto } from './dto/employee-update.dto';
 import { EmployeeUpdatePartialDto } from './dto/employee-update-partial.dto';
 import { Department } from 'src/department/entity/department.entity';
-import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class EmployeeService {
@@ -23,7 +22,9 @@ export class EmployeeService {
     }
 
     getAll(): Promise<Employee[]> {
-        return this.employeeRepository.find();
+        return this.employeeRepository.find({
+            relations: ['department']
+        });
     }
 
     async create(employeeToCreate: CreateEmployeeDto): Promise<Employee> {
@@ -44,7 +45,10 @@ export class EmployeeService {
     }
 
     getById(employeeId: number): Promise<Employee> {
-        return this.employeeRepository.findOneBy({ id: employeeId});
+        return this.employeeRepository.findOne({
+            where: { id: employeeId },
+            relations: ['department']
+        });
     }
 
     delete(employeeId: number): Promise<DeleteResult> {
