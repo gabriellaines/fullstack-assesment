@@ -26,6 +26,13 @@ export class EmployeeController {
     getAll(): Promise<Employee[]> {
         return this.employeeService.getAll();
     }  
+  
+    // TODO: add validations to when the
+    // employee is not found
+    @Get(':id')
+    getById(@Param('id') id: number) {
+        return this.employeeService.getById(id);
+    }
     
     @Post()
     create(@Body() employeeToCreate: CreateEmployeeDto) {
@@ -38,27 +45,19 @@ export class EmployeeController {
         @Param('id') id: number,
         @Body() dataToUpdate: EmployeeUpdateDto
     ) {
-        return this.updateHelper(id, dataToUpdate)
+        return this.employeeService.updateHelper(id, dataToUpdate)
     }
 
     @Patch(':id')
     @HttpCode(204)
-    async partialUptadate(
+    async partialUpdate(
         @Param('id') id: number,
         @Body() dataToUpdate: EmployeeUpdatePartialDto
     ) {
-        return this.updateHelper(id, dataToUpdate)
+        return this.employeeService.updateHelper(id, dataToUpdate)
     }
 
-    async updateHelper(id: number, dataToUpdate: EmployeeUpdateDto) {
-        const updateResult = await this.employeeService.update(id, dataToUpdate);
-
-        if (updateResult.affected === 0) {
-            throw new NotFoundException(`Employee with ID ${id} not found!`);
-        }
-
-        return { statusCode: HttpStatus.NO_CONTENT };
-    }
+    
 
     @Delete(':id')
     @HttpCode(204)

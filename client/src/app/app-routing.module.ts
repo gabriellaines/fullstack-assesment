@@ -1,17 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { EmployeeComponent } from './employee/employee.component';
 
 const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
-    redirectTo: 'employee'
+    redirectTo: 'employee/list',
+    pathMatch: 'full'
   },
   {
     path: 'employee',
-    component: EmployeeComponent
-  }
+    loadChildren: () => import('./employee/employee.module').then(m => m.EmployeeModule)
+  },
 ];
 
 @NgModule({

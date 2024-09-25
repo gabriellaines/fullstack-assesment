@@ -10,8 +10,12 @@ export default class EmployeeService {
     constructor(private readonly httpClient: HttpClient) {
         this.employeeUrl = environment.apiUrl + '/employee';
     }
-
+    
     public getAll(): Observable<EmployeeModel[]> {
         return this.httpClient.get<EmployeeModel[]>(this.employeeUrl);
+    }
+    
+    public findOne(id: any) {
+        return this.httpClient.get<EmployeeModel>(this.employeeUrl + '/by-id/' + id);
     }
 }

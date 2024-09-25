@@ -1,11 +1,15 @@
-import { NgModule } from "@angular/core";
-import { EmployeeComponent } from "./employee.component";
-import EmployeeService from "./employee.service";
-import { ListComponent } from "./list/list.component";
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { EmployeeDetailComponent } from './employee-detail/employee-detail.component';
+import EmployeeService from './employee.service';
+import { EmployeeRoutingModule } from './employee-routing.module';
 
 @NgModule({
-    declarations: [EmployeeComponent, ListComponent],
-    providers: [EmployeeService],
-    exports: [EmployeeComponent]
+  declarations: [EmployeeDetailComponent],
+  providers: [EmployeeService],
+  imports: [
+    CommonModule,
+    EmployeeRoutingModule
+  ] 
 })
-export default class EmployeeModule {}
+export class EmployeeModule {}

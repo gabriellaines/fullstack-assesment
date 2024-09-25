@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { Employee } from './entity/employee.entity';
@@ -44,6 +44,7 @@ export class EmployeeService {
         return this.employeeRepository.save(employee);
     }
 
+    // TODO: check if the employee was found!
     getById(employeeId: number): Promise<Employee> {
         return this.employeeRepository.findOne({
             where: { id: employeeId },
@@ -53,6 +54,16 @@ export class EmployeeService {
 
     delete(employeeId: number): Promise<DeleteResult> {
         return this.employeeRepository.delete(employeeId);
+    }
+
+    async updateHelper(id: number, dataToUpdate: EmployeeUpdateDto) {
+        const updateResult = await this.update(id, dataToUpdate);
+
+        if (updateResult.affected === 0) {
+            throw new NotFoundException(`Employee with ID ${id} was not updated, check if the employee exists!`);
+        }
+
+        return { statusCode: HttpStatus.NO_CONTENT };
     }
 
 }
