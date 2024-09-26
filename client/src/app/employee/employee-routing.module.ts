@@ -5,11 +5,11 @@ import { EmployeeDetailComponent } from './employee-detail/employee-detail.compo
 
 const routes: Routes = [
   {
-    path: 'list', // Ensure this path exists
+    path: 'list', 
     component: EmployeeListComponent,
   },
   {
-    path: 'detail/:id', // Ensure this path exists
+    path: 'detail/:id', 
     component: EmployeeDetailComponent,
   },
 ];

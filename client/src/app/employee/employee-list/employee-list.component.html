@@ -1,5 +1,11 @@
-<p>list works!</p>
-@for(employee of employees; track employee.id) {
-    <p>{{ employee.firstName }}</p>
-    <p>{{ employee.department.name }}</p>
-}
+<ul class="employee-list">
+    @for(employee of employees; track employee.id) {
+        <li class="employee">
+            <div class="employee-image"></div>
+            <h1>{{ employee.firstName }} {{ employee.lastName }}</h1>
+            <h2>{{ employee.department.name }}</h2>
+            <h3>{{ employee.hireDate | date }} {{ employee.hireDate | elapsedTime }}</h3>
+            <button class="view-details">View Details</button>
+        </li>
+    }
+</ul>

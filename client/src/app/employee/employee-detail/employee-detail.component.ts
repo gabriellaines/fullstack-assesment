@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import EmployeeModel from '../employee.model';
 import EmployeeService from '../employee.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-employee-detail',
@@ -12,7 +13,7 @@ export class EmployeeDetailComponent implements OnInit {
   
   public employee!: EmployeeModel;
 
-  constructor(private readonly route: ActivatedRoute, private readonly employeeService: EmployeeService) {}
+  constructor(private readonly route: ActivatedRoute, private readonly employeeService: EmployeeService, private readonly locationService: Location) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -22,5 +23,8 @@ export class EmployeeDetailComponent implements OnInit {
     })
   }
 
+  return() {
+    this.locationService.back();
+  }
 
 }
