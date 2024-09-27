@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from "typeorm";
+import { Department } from './department.entity';
 
 @Entity()
 export class DepartmentHistory {
@@ -8,9 +9,10 @@ export class DepartmentHistory {
     @Column()
     employeeId: number;
 
-    @Column()
-    departmentId: number;
-
+    @ManyToOne(() => Department)
+    @JoinColumn({ name: 'department_id' })
+    department: Department;
+  
     @Column({ type: 'date' })
     startDate: string;
 

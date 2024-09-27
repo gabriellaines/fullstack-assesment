@@ -5,10 +5,10 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-employee-list',
-  templateUrl: './employee-list.component.html',
-  styleUrl: './employee-list.component.scss'
+  templateUrl: './list.component.html',
+  styleUrl: './list.component.scss'
 })
-export class EmployeeListComponent implements OnInit {
+export class ListComponent implements OnInit {
   public employees: EmployeeModel[] = [];
   constructor(private readonly employeeService: EmployeeService, private readonly routerService: Router) {}
 

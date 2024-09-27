@@ -25,4 +25,6 @@ export class Employee {
   @JoinColumn({ name: 'department_id' })
   department: Department;
 
+  @Column({ default: true })
+  active: boolean;
 }

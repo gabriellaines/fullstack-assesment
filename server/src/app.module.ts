@@ -1,10 +1,11 @@
-import { Module } from '@nestjs/common';
+import { Module, OnModuleInit } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DepartmentModule } from './department/department.module';
 import { EmployeeModule } from './employee/employee.module';
+import { DatabaseSeeder } from './database.seeder';
 
 @Module({
   imports: [
@@ -27,6 +28,12 @@ import { EmployeeModule } from './employee/employee.module';
     EmployeeModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, DatabaseSeeder],
 })
-export class AppModule {}
+export class AppModule implements OnModuleInit {
+  constructor(private readonly databaseSeeder: DatabaseSeeder) {}
+
+  async onModuleInit() {
+    await this.databaseSeeder.seed();
+  }
+}

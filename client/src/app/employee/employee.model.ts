@@ -1,4 +1,5 @@
-import DepartmnetModel from "../department/department.model";
+import DepartmentHistoryModel from "../department/department-history.model";
+import DepartmentModel from "../department/department.model";
 
 export default interface EmployeeModel {
   id?: number;
@@ -7,5 +8,7 @@ export default interface EmployeeModel {
   hireDate: string;
   phone: string;
   address: string;
-  department: DepartmnetModel; 
+  department: DepartmentModel;
+  departmentHistory?: DepartmentHistoryModel[];
+  active: boolean;
 }

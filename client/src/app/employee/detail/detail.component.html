@@ -1,0 +1,64 @@
+<header class="header">
+    <button class="back-btn" (click)="return()">back</button>
+</header>
+<div *ngIf="employee$ | async as employee; else loading">
+
+    <div class="container">
+        <div class="employee-information">
+            <div class="avatar">
+                <div [hidden]="employee.active" class="status">
+                   Inactive 
+                </div>
+            </div>
+            <div class="info-department">
+                <div class="information">
+                    <h1>{{ employee?.firstName }} {{ employee?.lastName }}</h1>
+                    <p><span>Department:</span> {{ employee?.department?.name }}</p>
+                    <p><span>Phone:</span> {{ employee?.phone }}</p>
+                    <p><span>Address:</span> {{ employee?.address }}</p>
+                </div>
+                <div *ngIf="departments$ | async as departments" class="department">
+                    <h1>Update Department</h1>
+                    <select [(ngModel)]="employee.department.id" (ngModelChange)="onDepartmentChange()">
+                        @for(department of departments; track department.id) {
+                            <option [ngValue]="department?.id">{{ department?.name }}</option>
+                        }
+                    </select>
+                    <button class="btn btn-secondary" [disabled]="!canUpdateDepartment" (click)="updateDepartment()">Update</button>
+                </div>
+            </div>
+            <div class="date-information">
+                <h1>Hire date</h1>
+                <p>{{ employee?.hireDate | date }}</p>
+                <p>{{ employee?.hireDate! | elapsedTime }}</p>
+                @if(employee.active) {
+                  <button (click)="toggleStatus(employee)" class="btn btn-danger">deactivate</button>
+                } @else {
+                  <button (click)="toggleStatus(employee)" class="btn btn-success">activate</button>
+                }
+            </div>
+        </div>
+        <div class="employee-department-history">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Department Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(history of employee.departmentHistory; track history.id) {
+                        <tr>
+                            <td>{{ history?.startDate | date }}</td>
+                            <td>{{ history?.department?.name }}</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<ng-template #loading>
+    loading employee information
+</ng-template>

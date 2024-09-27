@@ -8,7 +8,7 @@ import { EmployeeUpdatePartialDto } from './dto/employee-update-partial.dto';
 import { Department } from 'src/department/entity/department.entity';
 import { DepartmentHistory } from 'src/department/entity/department-history.entity';
 
-@Injectable()
+@Injectable({})
 export class EmployeeService {
 
     constructor(
@@ -20,17 +20,8 @@ export class EmployeeService {
         private departmentHistoryRepository: Repository<DepartmentHistory>
     ) {}
     
-    async update(id: number, dataToUpdate: EmployeeUpdateDto | EmployeeUpdatePartialDto): Promise<UpdateResult> {
+    async update(id: number, employee: Employee, dataToUpdate: EmployeeUpdateDto | EmployeeUpdatePartialDto): Promise<UpdateResult> {
         let employeeToUpdate: Partial<Employee> = { ...dataToUpdate } as Employee;
-
-        const employee = await this.employeeRepository.findOne({
-            where: { id },
-            relations: ['department']  
-        });
-
-        if (!employee) {
-            throw new NotFoundException(`Employee with id ${id} not found!`);
-        }
 
         // Check if the departmentId is part of the data to update
         if ('departmentId' in dataToUpdate) {
@@ -44,7 +35,7 @@ export class EmployeeService {
             if (employee.department && employee.department.id !== departmentId) {
                 await this.departmentHistoryRepository.save({
                     employeeId: employee.id,
-                    departmentId: newDepartment.id,
+                    department: newDepartment,
                     startDate: new Date().toISOString().slice(0, 10)
                 });
                 employeeToUpdate = { ...rest, department: newDepartment}
@@ -73,18 +64,18 @@ export class EmployeeService {
             throw new NotFoundException(`Department with id ${employeeToCreate.department_id} not found!`);
         }
 
-        const employee = await this.employeeRepository.create({
+        const employeeCreated = await this.employeeRepository.save({
             ...employeeToCreate,
             department
         });
-        
-        await this.departmentHistoryRepository.create({
-            employeeId: employee.id,
-            departmentId: department.id,
+
+       	await this.departmentHistoryRepository.save({
+            employeeId: employeeCreated.id,
+            department: department,
             startDate: new Date().toISOString().slice(0, 10)
         });
 
-        return this.employeeRepository.save(employee);
+        return employeeCreated;
     }
 
     async getById(employeeId: number) {
@@ -94,7 +85,8 @@ export class EmployeeService {
         });
 
         const departmentHistory = await this.departmentHistoryRepository.find({
-            where: { employeeId: employee.id }
+            where: { employeeId: employee.id },
+	        relations: ['department']
         });
 
         if (!employee) {
@@ -113,7 +105,16 @@ export class EmployeeService {
     }
 
     async updateHelper(id: number, dataToUpdate: EmployeeUpdateDto) {
-        const updateResult = await this.update(id, dataToUpdate);
+        const employee = await this.employeeRepository.findOne({
+            where: { id },
+            relations: ['department']
+        });
+
+        if (!employee) {
+            throw new NotFoundException(`Employee with id ${id} not found!`);
+        }
+
+        const updateResult = await this.update(id, employee, dataToUpdate);
 
         if (updateResult.affected === 0) {
             throw new NotFoundException(`Employee with ID ${id} was not updated, check if the employee exists!`);

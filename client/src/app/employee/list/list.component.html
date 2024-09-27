@@ -5,7 +5,7 @@
             <h1>{{ employee.firstName }} {{ employee.lastName }}</h1>
             <h2>{{ employee.department.name }}</h2>
             <h3>{{ employee.hireDate | date }} {{ employee.hireDate | elapsedTime }}</h3>
-            <button class="view-details">View Details</button>
+            <button (click)="viewDetails(employee.id!)" class="view-details">View Details</button>
         </li>
     }
 </ul>
